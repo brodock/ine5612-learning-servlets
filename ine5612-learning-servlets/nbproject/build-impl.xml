@@ -475,11 +475,38 @@
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
+        <basename file="${file.reference.mysql-connector-java-5.0.7-bin.jar}" property="included.lib.file.reference.mysql-connector-java-5.0.7-bin.jar"/>
+        <copy-ear-war file="${file.reference.mysql-connector-java-5.0.7-bin.jar}" propname="included.lib.file.reference.mysql-connector-java-5.0.7-bin.jar.X"/>
+        <basename file="${file.reference.ejb3-persistence.jar}" property="included.lib.file.reference.ejb3-persistence.jar"/>
+        <copy-ear-war file="${file.reference.ejb3-persistence.jar}" propname="included.lib.file.reference.ejb3-persistence.jar.X"/>
+        <basename file="${file.reference.hibernate-annotations.jar}" property="included.lib.file.reference.hibernate-annotations.jar"/>
+        <copy-ear-war file="${file.reference.hibernate-annotations.jar}" propname="included.lib.file.reference.hibernate-annotations.jar.X"/>
+        <basename file="${file.reference.hibernate-commons-annotations.jar}" property="included.lib.file.reference.hibernate-commons-annotations.jar"/>
+        <copy-ear-war file="${file.reference.hibernate-commons-annotations.jar}" propname="included.lib.file.reference.hibernate-commons-annotations.jar.X"/>
+        <basename file="${file.reference.hibernate-entitymanager.jar}" property="included.lib.file.reference.hibernate-entitymanager.jar"/>
+        <copy-ear-war file="${file.reference.hibernate-entitymanager.jar}" propname="included.lib.file.reference.hibernate-entitymanager.jar.X"/>
+        <basename file="${file.reference.hibernate-validator.jar}" property="included.lib.file.reference.hibernate-validator.jar"/>
+        <copy-ear-war file="${file.reference.hibernate-validator.jar}" propname="included.lib.file.reference.hibernate-validator.jar.X"/>
+        <basename file="${file.reference.hibernate3.jar}" property="included.lib.file.reference.hibernate3.jar"/>
+        <copy-ear-war file="${file.reference.hibernate3.jar}" propname="included.lib.file.reference.hibernate3.jar.X"/>
+        <basename file="${file.reference.jboss-archive-browsing.jar}" property="included.lib.file.reference.jboss-archive-browsing.jar"/>
+        <copy-ear-war file="${file.reference.jboss-archive-browsing.jar}" propname="included.lib.file.reference.jboss-archive-browsing.jar.X"/>
         <mkdir dir="${build.web.dir.real}/META-INF"/>
-        <manifest file="${build.web.dir.real}/META-INF/MANIFEST.MF" mode="update"/>
+        <manifest file="${build.web.dir.real}/META-INF/MANIFEST.MF" mode="update">
+            <attribute name="Class-Path" value="${included.lib.file.reference.mysql-connector-java-5.0.7-bin.jar} ${included.lib.file.reference.ejb3-persistence.jar} ${included.lib.file.reference.hibernate-annotations.jar} ${included.lib.file.reference.hibernate-commons-annotations.jar} ${included.lib.file.reference.hibernate-entitymanager.jar} ${included.lib.file.reference.hibernate-validator.jar} ${included.lib.file.reference.hibernate3.jar} ${included.lib.file.reference.jboss-archive-browsing.jar} "/>
+        </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
-    <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir"/>
+    <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
+        <copy file="${file.reference.mysql-connector-java-5.0.7-bin.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.ejb3-persistence.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.hibernate-annotations.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.hibernate-commons-annotations.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.hibernate-entitymanager.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.hibernate-validator.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.hibernate3.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.jboss-archive-browsing.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+    </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>
         <mkdir dir="${dist.jar.dir}"/>
