@@ -15,10 +15,17 @@ Author     : Gabriel, Ramon
     </head>
     <body>
         <div align="center">
-            <h1>Fornecedores</h1>
-            <form action="/cad_fornecedor" method="post">
-            </form>
+            <h2>Cadastrar Fornecedor</h2><br/><br/>
+            <br/>Nome Fantasia: <input type="text" name="nome" value=""  />
+            <br/>Produtos Fornecidos: <input type="text" name="produto" value=""  />
+            <br/>Cidade: <input type="text" name="cidade" value=""  />
+            <br/>Estado: <input type="text" name="estado" value=""  />
+            <br/>Pais: <input type="text" name="pais" value=""  />
+            <br/>Endereço: <input type="text" name="endereco" value=""  />
+            <br/>Telefone: <input type="text" name="telefone" value=""  />
+            <br/>E-mail: <input type="text" name="email" value=""  />
+            <br/>Contatos: <input type="text" name="contatos" value=""  />
+            <br/><input type="submit" value="Salvar" name="submeter" />
         </div>
-        
     </body>
 </html>
