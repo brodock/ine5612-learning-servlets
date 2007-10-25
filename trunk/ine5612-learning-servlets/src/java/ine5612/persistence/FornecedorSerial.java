@@ -20,32 +20,78 @@ public class FornecedorSerial implements Serializable {
     private String nome;
     private String endereco;
     private int telefone;
-    private int fax;
+    private String contatos;
+    private String pais;
+    private String estado;
+    private String cidade;
     private String email;
     private int cnpj;
-    private String contato;
-    private ProdutoEnum fornece;
+    private ProdutoEnum produto;
 
     public FornecedorSerial() {
         this.nome = "";
         this.endereco = "";
         this.telefone = 0;
-        this.fax = 0;
+        this.contatos = "";
+        this.pais = "";
+        this.cidade = "";
+        this.estado = "";
         this.email = "";
         this.cnpj = 0;
-        this.contato = "";
-        this.fornece = null;
+        this.produto = null;
     }
 
-    public FornecedorSerial(String nome, String endereco, int telefone, int fax, String email, int cnpj, String contato, ProdutoEnum fornece) {
+    public FornecedorSerial(String nome, String endereco, String cidade, String estado, String pais, int telefone, String email, int cnpj, String contatos, ProdutoEnum fornece) {
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
-        this.fax = fax;
         this.email = email;
         this.cnpj = cnpj;
-        this.contato = contato;
-        this.fornece = fornece;
+        this.produto = fornece;
+        this.estado = estado;
+        this.cidade = cidade;
+        this.pais = pais;
+        this.contatos = contatos;
+    }
+    
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public int getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(int cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(String contatos) {
+        this.contatos = contatos;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     public int getcnpj() {
@@ -54,14 +100,6 @@ public class FornecedorSerial implements Serializable {
 
     public void setcnpj(int cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public String getContato() {
-        return contato;
-    }
-
-    public void setContato(String contato) {
-        this.contato = contato;
     }
 
     public String getEmail() {
@@ -80,20 +118,12 @@ public class FornecedorSerial implements Serializable {
         this.endereco = endereco;
     }
 
-    public int getFax() {
-        return fax;
+    public ProdutoEnum getProduto() {
+        return produto;
     }
 
-    public void setFax(int fax) {
-        this.fax = fax;
-    }
-
-    public ProdutoEnum getFornece() {
-        return fornece;
-    }
-
-    public void setFornece(ProdutoEnum fornece) {
-        this.fornece = fornece;
+    public void setProduto(ProdutoEnum fornece) {
+        this.produto = fornece;
     }
 
     public String getNome() {
@@ -114,9 +144,9 @@ public class FornecedorSerial implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Nome: %s\nEndereço: %s\nTelefone: %d\nFax: %d\n" +
-                "Email: %s\ncnpj: %d\nContato: %s\nFornece: %s",
-                this.nome, this.endereco, this.telefone, this.fax, this.email,
-                this.cnpj, this.contato, this.fornece.getNome());
+        return String.format("Nome: %s\nEndereço: %s\nCidade: %s\nEstado: %s\nPais: %s\nTelefone: %d\n" +
+                "Email: %s\ncnpj: %d\nContatos: %s\nFornece: %s",
+                this.nome, this.endereco, this.cidade, this.estado, this.pais, this.telefone, this.email,
+                this.cnpj, this.contatos, this.produto.getNome());
     }
 }
