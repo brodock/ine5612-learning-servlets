@@ -18,7 +18,7 @@ import javax.servlet.http.*;
  *
  * @author brodock
  */
-public class cad_fornecedor extends HttpServlet {
+public class ServletFornecimento extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

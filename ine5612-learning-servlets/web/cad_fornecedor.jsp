@@ -16,16 +16,26 @@ Author     : Gabriel, Ramon
     <body>
         <div align="center">
             <h2>Cadastrar Fornecedor</h2><br/><br/>
-            <label name="Nome Fantasia da Empresa"><br/>Nome Fantasia: <input type="text" name="nome" value=""  /></label>
-            <label name="Produtos Fornecidos pela Empresa"><br/>Produtos Fornecidos: <input type="text" name="produto" value=""  /></label>
-            <label name="Cidade da Matriz"><br/>Cidade: <input type="text" name="cidade" value=""  /></label>
-            <label name="Estado da Matriz"><br/>Estado: <input type="text" name="estado" value=""  /></label>
-            <label name="Pais da Matriz"><br/>Pais: <input type="text" name="pais" value=""  /></label>
-            <label name="Endereço"><br/>Endereço: <input type="text" name="endereco" value=""  /></label>
-            <label name="Telefone para contato"><br/>Telefone: <input type="text" name="telefone" value=""  /></label>
-            <label name="e-mail para contato"><br/>E-mail: <input type="text" name="email" value=""  /></label>
-            <label name="Pessoa a contatar"><br/>Contatos: <input type="text" name="contatos" value=""  /></label>
+            <form name="form_cadastro" action="ServletFornecimento" method="POST">
+            <% if (request.getParameter("id") != null) { %>
+            <input type="hidden" id="id" name="id" value="<%=request.getParameter("id") %>" />
+            <% } %>
+            <label name="Nome Fantasia da Empresa"><br/>Nome Fantasia: <input type="text" name="nome" value="<%=request.getAttribute("nome") == null?"":request.getAttribute("nome") %>"  /></label>
+            <select id="fornece" name="fornece">
+                <% for(ine5612.persistence.ProdutoEnum t: ine5612.persistence.ProdutoEnum.values()) { %>
+                <option <%=request.getAttribute("produto") == t.getNome()?"selected":"" %>><%=t.getNome() %></option>
+                <% }; %>
+            </select>
+            <label name="CNPJ da Empresa"><br/>CNPJ: <input type="text" name="cnpj" value="<%=request.getAttribute("cnpj") == null?"":request.getAttribute("cnpj") %>"  /></label>
+            <label name="Cidade da Matriz"><br/>Cidade: <input type="text" name="cidade" value="<%=request.getAttribute("cidade") == null?"":request.getAttribute("cidade") %>"  /></label>
+            <label name="Estado da Matriz"><br/>Estado: <input type="text" name="estado" value="<%=request.getAttribute("estado") == null?"":request.getAttribute("estado") %>"  /></label>
+            <label name="Pais da Matriz"><br/>Pais: <input type="text" name="pais" value="<%=request.getAttribute("pais") == null?"":request.getAttribute("pais") %>"  /></label>
+            <label name="Endereço"><br/>Endereço: <input type="text" name="endereco" value="<%=request.getAttribute("endereco") == null?"":request.getAttribute("endereco") %>"  /></label>
+            <label name="Telefone para contato"><br/>Telefone: <input type="text" name="telefone" value="<%=request.getAttribute("telefone") == null?"":request.getAttribute("telefone") %>"  /></label>
+            <label name="e-mail para contato"><br/>E-mail: <input type="text" name="email" value="<%=request.getAttribute("email") == null?"":request.getAttribute("email") %>"  /></label>
+            <label name="Pessoa a contatar"><br/>Contatos: <input type="text" name="contatos" value="<%=request.getAttribute("contatos") == null?"":request.getAttribute("contatos") %>"  /></label>
             <label name="enviar formulário"><br/><input type="submit" value="Salvar" name="submeter" /></label>
+            </form>
         </div>
     </body>
 </html>

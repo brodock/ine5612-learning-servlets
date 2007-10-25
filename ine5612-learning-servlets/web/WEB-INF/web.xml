@@ -6,7 +6,7 @@
     </servlet>
     <servlet>
         <servlet-name>cad_fornecedor</servlet-name>
-        <servlet-class>ine5612.servlets.cad_fornecedor</servlet-class>
+        <servlet-class>ine5612.servlets.ServletFornecimento</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TesteServlet</servlet-name>
