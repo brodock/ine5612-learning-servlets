@@ -68,4 +68,46 @@ public class FornecedorLista {
     public FornecedorSerial getFornecedor(int id) {
         return this.lista.get(id);
     }
+    
+    //C/P
+     public String updateFornecedor(String ID, String nome, String endereco, String cidade, String estado, String pais, String FONE, String email, String CNPJ, String contato, String FORNECE) {
+        int id = Integer.parseInt(ID);
+        int telefone = Integer.parseInt(FONE);
+        int cnpj = Integer.parseInt(CNPJ);
+        ProdutoEnum fornece = this.lista_produto.get(FORNECE);
+        FornecedorSerial f = new FornecedorSerial(nome, endereco, cidade, estado, pais, telefone, email, cnpj, contato, fornece);
+        this.lista.set(id, f);
+        this.salvaArquivo();
+        return f.toString();        
+    }
+    
+    public String addFornecedor(String nome, String endereco, String cidade, String estado, String pais, String FONE, String email, String CNPJ, String contato, ProdutoEnum fornece) {
+        int telefone = Integer.parseInt(FONE);
+        int cnpj = Integer.parseInt(CNPJ);
+        ProdutoEnum produto = this.lista_produto.get(fornece);
+        FornecedorSerial f = new FornecedorSerial(nome, endereco, cidade, estado, pais, telefone, email, cnpj, contato, produto);
+        this.lista.add(f);
+        this.salvaArquivo();
+        return f.toString();
+    }
+
+    public ArrayList<FornecedorSerial> buscaNome(String nome) {
+        ArrayList<FornecedorSerial> resultado = new ArrayList<FornecedorSerial>();
+        for (FornecedorSerial f : this.lista) {
+            if (f.getNome().equals(nome)) {
+                resultado.add(f);
+            }
+        }
+        return resultado;
+    }
+
+    public ArrayList<FornecedorSerial> buscaFornece(String fornece) {
+        ArrayList<FornecedorSerial> resultado = new ArrayList<FornecedorSerial>();
+        for (FornecedorSerial f : this.lista) {
+            if (f.getProduto().getNome().equals(fornece)) {
+                resultado.add(f);
+            }
+        }
+        return resultado;
+    }
 }
