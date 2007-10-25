@@ -14,14 +14,19 @@
         <title>Busca de Fornecedores</title>
     </head>
     <body>
-        <h2>Buscar Fornecedor</h2>
+        <h2>Buscar Fornecedor</h2><form name="form_busca" action="ServletFornecimento" method="POST">
+        
         <input type="radio" name="param_busca" value="nome" checked="checked" />Nome 
         <input type="radio" name="param_busca" value="cnpj" />CNPJ 
         <input type="radio" name="param_busca" value="telefone" />Telefone 
-        <input type="radio" name="param_busca" value="produto" /> Produto: <select name="listaproduto">
-            <% for(ine5612.persistence.ProdutoEnum t: ine5612.persistence.ProdutoEnum.values()) { %>
+            <br/><input type="text" name="texto" value="" />
+            <br/><br/>
+            <input type="radio" name="param_busca" value="produto" /> Produto: <select name="listaproduto">
+                <% for(ine5612.persistence.ProdutoEnum t: ine5612.persistence.ProdutoEnum.values()) { %>
                 <option><%=t.getNome() %></option>
                 <% }; %>
         </select>
+            <input type="submit" id="buscar" value="Buscar" name="buscar" />
+        </form>
     </body>
 </html>
