@@ -9,7 +9,6 @@
 
 package ine5612.persistence;
 
-import ine5612.persistence.Fornecedor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
@@ -101,7 +100,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "ine5612.servlets.Produto[idProduto=" + idProduto + "]";
+        return String.valueOf(idProduto);
     }
 
 }
