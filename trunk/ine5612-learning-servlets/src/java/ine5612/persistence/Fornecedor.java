@@ -1,7 +1,7 @@
 /*
  * Fornecedor.java
  * 
- * Created on 15/10/2007, 20:10:58
+ * Created on 25/10/2007, 19:43:00
  * 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -9,16 +9,12 @@
 
 package ine5612.persistence;
 
-import ine5612.servlets.*;
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,15 +28,15 @@ public class Fornecedor implements Serializable {
     @Id
     @Column(name = "idFornecedor", nullable = false)
     private Integer idFornecedor;
-    @Column(name = "nome_fantasia")
-    private Integer nomeFantasia;
-    @Column(name = "endereco")
+    @Column(name = "nome_fantasia", nullable = false)
+    private String nomeFantasia;
+    @Column(name = "endereco", nullable = false)
     private String endereco;
-    @Column(name = "cidade")
+    @Column(name = "cidade", nullable = false)
     private String cidade;
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private String estado;
-    @Column(name = "pais")
+    @Column(name = "pais", nullable = false)
     private String pais;
     @Column(name = "telefone")
     private String telefone;
@@ -48,14 +44,21 @@ public class Fornecedor implements Serializable {
     private String email;
     @Column(name = "contato")
     private String contato;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFornecedor")
-    private Collection<Produto> produtoCollection;
 
     public Fornecedor() {
     }
 
     public Fornecedor(Integer idFornecedor) {
         this.idFornecedor = idFornecedor;
+    }
+
+    public Fornecedor(Integer idFornecedor, String nomeFantasia, String endereco, String cidade, String estado, String pais) {
+        this.idFornecedor = idFornecedor;
+        this.nomeFantasia = nomeFantasia;
+        this.endereco = endereco;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.pais = pais;
     }
 
     public Integer getIdFornecedor() {
@@ -66,11 +69,11 @@ public class Fornecedor implements Serializable {
         this.idFornecedor = idFornecedor;
     }
 
-    public Integer getNomeFantasia() {
+    public String getNomeFantasia() {
         return nomeFantasia;
     }
 
-    public void setNomeFantasia(Integer nomeFantasia) {
+    public void setNomeFantasia(String nomeFantasia) {
         this.nomeFantasia = nomeFantasia;
     }
 
@@ -130,14 +133,6 @@ public class Fornecedor implements Serializable {
         this.contato = contato;
     }
 
-    public Collection<Produto> getProdutoCollection() {
-        return produtoCollection;
-    }
-
-    public void setProdutoCollection(Collection<Produto> produtoCollection) {
-        this.produtoCollection = produtoCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -160,7 +155,7 @@ public class Fornecedor implements Serializable {
 
     @Override
     public String toString() {
-        return "ine5612.servlets.Fornecedor[idFornecedor=" + idFornecedor + "]";
+        return "ine5612.persistence.Fornecedor[idFornecedor=" + idFornecedor + "]";
     }
 
 }
