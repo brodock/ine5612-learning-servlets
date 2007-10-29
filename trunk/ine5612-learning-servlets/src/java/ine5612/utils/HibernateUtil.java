@@ -24,25 +24,25 @@ public class HibernateUtil {
     /**
      * Entity Manager Factory - JPA
      */
-    private static final EntityManagerFactory entityManagerFactory;
+    private static EntityManagerFactory entityManagerFactory;
     
-    static {
-        try {
-
-            entityManagerFactory = Persistence.createEntityManagerFactory("ine5612");
-            
-        } catch (Throwable ex) {
-            // Make sure you log the exception, as it might be swallowed
-            System.err.println("Initial EntityManagerFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
     /**
      * Referencia para o Factory do Entity Manager (singleton)
      * @return Retorna o Factory do Entity Manager
      */
     public static EntityManagerFactory getEntityManagerFactory() {
+        
+        if (entityManagerFactory == null) {
+            
+            entityManagerFactory = Persistence.createEntityManagerFactory("ine5612");
+            
+        }
+        
         return entityManagerFactory;
+    }
+    
+    private HibernateUtil() {
+        
     }
     
 }

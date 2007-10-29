@@ -14,6 +14,7 @@ import ine5612.utils.HibernateUtil;
 import java.io.*;
 import java.net.*;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -75,7 +76,9 @@ public class ServletFornecimento extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        EntityManager em = (EntityManager)HibernateUtil.getEntityManagerFactory().createEntityManager(); //Criando um Entity Manager
+        EntityManagerFactory emf= HibernateUtil.getEntityManagerFactory();
+        EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
+        //EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager(); //Criando um Entity Manager
         EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
         tx.begin(); //Iniciando a transação
 
