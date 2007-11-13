@@ -1,12 +1,3 @@
-/*
- * Fornecedor.java
- * 
- * Created on 25/10/2007, 19:43:00
- * 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ine5612.persistence;
 
 import java.io.Serializable;
@@ -19,14 +10,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
- * @author brodock
+ * Entidade Fornecedor
+ * @author Gabriel, Ramon
  */
 @Entity
 @Table(name = "Fornecedor")
-@NamedQueries({@NamedQuery(name = "Fornecedor.findByIdFornecedor", query = "SELECT f FROM Fornecedor f WHERE f.idFornecedor = :idFornecedor"), @NamedQuery(name = "Fornecedor.findByNomeFantasia", query = "SELECT f FROM Fornecedor f WHERE f.nomeFantasia = :nomeFantasia"), @NamedQuery(name = "Fornecedor.findByEndereco", query = "SELECT f FROM Fornecedor f WHERE f.endereco = :endereco"), @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade"), @NamedQuery(name = "Fornecedor.findByEstado", query = "SELECT f FROM Fornecedor f WHERE f.estado = :estado"), @NamedQuery(name = "Fornecedor.findByPais", query = "SELECT f FROM Fornecedor f WHERE f.pais = :pais"), @NamedQuery(name = "Fornecedor.findByTelefone", query = "SELECT f FROM Fornecedor f WHERE f.telefone = :telefone"), @NamedQuery(name = "Fornecedor.findByEmail", query = "SELECT f FROM Fornecedor f WHERE f.email = :email"), @NamedQuery(name = "Fornecedor.findByContato", query = "SELECT f FROM Fornecedor f WHERE f.contato = :contato")})
+@NamedQueries(value = {@NamedQuery(name = "Fornecedor.findByIdFornecedor", query = "SELECT f FROM Fornecedor f WHERE f.idFornecedor = :idFornecedor"), @NamedQuery(name = "Fornecedor.findByNomeFantasia", query = "SELECT f FROM Fornecedor f WHERE f.nomeFantasia = :nomeFantasia"), @NamedQuery(name = "Fornecedor.findByEndereco", query = "SELECT f FROM Fornecedor f WHERE f.endereco = :endereco"), @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade"), @NamedQuery(name = "Fornecedor.findByEstado", query = "SELECT f FROM Fornecedor f WHERE f.estado = :estado"), @NamedQuery(name = "Fornecedor.findByPais", query = "SELECT f FROM Fornecedor f WHERE f.pais = :pais"), @NamedQuery(name = "Fornecedor.findByTelefone", query = "SELECT f FROM Fornecedor f WHERE f.telefone = :telefone"), @NamedQuery(name = "Fornecedor.findByEmail", query = "SELECT f FROM Fornecedor f WHERE f.email = :email"), @NamedQuery(name = "Fornecedor.findByContato", query = "SELECT f FROM Fornecedor f WHERE f.contato = :contato")})
 public class Fornecedor implements Serializable {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     @Column(name = "idFornecedor", nullable = false)
     private Integer idFornecedor;
     @Column(name = "nome_fantasia", nullable = false)
@@ -158,5 +151,4 @@ public class Fornecedor implements Serializable {
     public String toString() {
         return "ine5612.persistence.Fornecedor[idFornecedor=" + idFornecedor + "]";
     }
-
 }

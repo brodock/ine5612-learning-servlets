@@ -1,18 +1,10 @@
-/*
- * cad_fornecedor.java
- *
- * Created on 15/10/2007, 19:40:53
- *
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ine5612.servlets;
 
 import ine5612.persistence.Fornecedor;
 import ine5612.utils.HibernateUtil;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -73,15 +65,27 @@ public class ServletFornecimento extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         String action = request.getParameter("action");
 
         if (action != null) {
             if (action.equals("save")) {
                 saveFornecedor(request, response);
+            } else if (action.equals("search")) {
+                searchFornecedor(request, response);
+            } else {
+                //Se a action não for encontrada
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet Fornecimento</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Action inexistente: " + action + "</h1>");
+                out.println("</body>");
+                out.println("</html>");
             }
         } else {
             out.println("<html>");
@@ -93,10 +97,91 @@ public class ServletFornecimento extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-
     }
 
-    protected void saveFornecedor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     */
+    /**
+     * Returns a short description of the servlet.
+     * @return
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }
+
+    /**
+     * Generate HTML listing of fornecedor
+     * @param fornecedores ArrayList of Fornecedor
+     * @return String with html output
+     */
+    private String listFornecedor(ArrayList<Fornecedor> fornecedores) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<ul>\n");
+        for (Fornecedor f : fornecedores) {
+            sb.append("<li>");
+            sb.append(f.getNomeFantasia());
+            sb.append("</li>\n");
+        }
+        sb.append("</ul>\n");
+
+        return sb.toString();
+    }
+
+    @SuppressWarnings(value = "unchecked")
+    private void searchFornecedor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        // Caralhada de coisa pro Hibernate Funcionar:
+        EntityManagerFactory emf = HibernateUtil.getEntityManagerFactory();
+        EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
+        EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
+        tx.begin(); //Iniciando a transação
+        
+        
+        ArrayList<Fornecedor> fornecedores = null;
+        String texto = request.getParameter("texto");
+        String tipo = request.getParameter("param_busca");
+        
+        if (tipo.equals("nome")) {       
+            fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", texto).getResultList();
+        } else if (tipo.equals("produto")) {
+            String produto = request.getParameter("listaproduto");
+            fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", produto).getResultList();
+        }
+        
+        tx.commit();
+
+        
+        //
+        // Imprime o resultado da pesquisa
+        //
+        
+        try {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Resultado da Pesquisa</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Listagem de fornecedores</h1>");
+            out.println(this.listFornecedor(fornecedores));
+            out.println("</body>");
+            out.println("</html>");
+        } finally {
+            out.close();
+        }
+    }
+
+    private void saveFornecedor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -145,24 +230,6 @@ public class ServletFornecimento extends HttpServlet {
         } finally {
             out.close();
         }
-    }
-
-    
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws javax.servlet.ServletException
-     * @throws java.io.IOException
-     */
-    /**
-     * Returns a short description of the servlet.
-     * @return
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
     // </editor-fold>
 }
