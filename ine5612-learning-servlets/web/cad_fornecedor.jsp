@@ -35,6 +35,7 @@ Author     : Gabriel, Ramon
             <label name="e-mail para contato"><br/>E-mail: <input type="text" name="email" value="<%=request.getAttribute("email") == null?"":request.getAttribute("email") %>"  /></label>
             <label name="Pessoa a contatar"><br/>Contatos: <input type="text" name="contatos" value="<%=request.getAttribute("contatos") == null?"":request.getAttribute("contatos") %>"  /></label>
             <label name="enviar formulário"><br/><input type="submit" id ="salvar" value="Salvar" name="salvar" /></label>
+                <input type="hidden" name="action" value="save" />
             </form>
         </div>
     </body>

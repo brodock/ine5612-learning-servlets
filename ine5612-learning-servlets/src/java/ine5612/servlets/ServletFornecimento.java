@@ -73,18 +73,43 @@ public class ServletFornecimento extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String action = request.getParameter("action");
+
+        if (action != null) {
+            if (action.equals("save")) {
+                saveFornecedor(request, response);
+            }
+        } else {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Fornecimento</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Action não definida!</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+
+    }
+
+    protected void saveFornecedor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        EntityManagerFactory emf= HibernateUtil.getEntityManagerFactory();
+        boolean persist = false;
+
+        EntityManagerFactory emf = HibernateUtil.getEntityManagerFactory();
         EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
         //EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager(); //Criando um Entity Manager
         EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
         tx.begin(); //Iniciando a transação
-
         Fornecedor forn = new Fornecedor();
-        
-        
+
+
         String nomeFantasia = request.getParameter("nome");
         String endereco = request.getParameter("endereco");
         String cidade = request.getParameter("cidade");
@@ -93,7 +118,7 @@ public class ServletFornecimento extends HttpServlet {
         String email = request.getParameter("email");
         String telefone = request.getParameter("telefone");
         String contato = request.getParameter("contato");
-        
+
         forn.setNomeFantasia(nomeFantasia);
         forn.setEndereco(endereco);
         forn.setCidade(cidade);
@@ -102,28 +127,27 @@ public class ServletFornecimento extends HttpServlet {
         forn.setEmail(email);
         forn.setTelefone(telefone);
         forn.setContato(contato);
-        
+
         em.persist(forn);
         tx.commit();
-        
+
         em.close();
-        
+
         try {
-            /* TODO output your page here
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet cad_fornecedor</title>");
+            out.println("<title>Servlet Fornecimento</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Fornecedor Salvo com Sucesso!</h1>");
             out.println("</body>");
             out.println("</html>");
-             */
         } finally {
             out.close();
         }
     }
 
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
