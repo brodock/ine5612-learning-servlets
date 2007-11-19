@@ -1,6 +1,7 @@
 package ine5612.servlets;
 
 import ine5612.persistence.Fornecedor;
+import ine5612.persistence.Produto;
 import ine5612.utils.HibernateUtil;
 import java.io.*;
 import java.net.*;
@@ -17,6 +18,28 @@ import javax.servlet.http.*;
  */
 public class ServletFornecimento extends HttpServlet {
 
+    private ArrayList<Produto> produtos;
+    
+    // Caralhada de coisas pro Hibernate Funcionar
+    private EntityManagerFactory emf = HibernateUtil.getEntityManagerFactory(); // Factory
+    private EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
+
+    @Override
+    public void init() {
+
+        EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
+        tx.begin(); //Iniciando a transação
+
+
+        ArrayList<Produto> prods = null;
+        // Carregar a lista de produtos disponível no banco
+        prods = (ArrayList<Produto>) em.createNativeQuery("SELECT p FROM Produto p").getResultList();
+
+        tx.commit();
+
+        this.produtos = prods;
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -28,36 +51,45 @@ public class ServletFornecimento extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet cad_fornecedor</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
+        /* TODO output your page here
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Servlet cad_fornecedor</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
+        out.println("</body>");
+        out.println("</html>");
+         */
         } finally {
             out.close();
         }
     }
 
-    @Override
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     */
+
+        @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet cad_fornecedor</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
+        /* TODO output your page here
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Servlet cad_fornecedor</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
+        out.println("</body>");
+        out.println("</html>");
+         */
         } finally {
             out.close();
         }
@@ -99,14 +131,7 @@ public class ServletFornecimento extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws javax.servlet.ServletException
-     * @throws java.io.IOException
-     */
+    
     /**
      * Returns a short description of the servlet.
      * @return
@@ -137,35 +162,32 @@ public class ServletFornecimento extends HttpServlet {
 
     @SuppressWarnings(value = "unchecked")
     private void searchFornecedor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        // Caralhada de coisa pro Hibernate Funcionar:
-        EntityManagerFactory emf = HibernateUtil.getEntityManagerFactory();
-        EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
+      
         EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
         tx.begin(); //Iniciando a transação
-        
-        
+
+
         ArrayList<Fornecedor> fornecedores = null;
         String texto = request.getParameter("texto");
         String tipo = request.getParameter("param_busca");
-        
-        if (tipo.equals("nome")) {       
+
+        if (tipo.equals("nome")) {
             fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", texto).getResultList();
         } else if (tipo.equals("produto")) {
             String produto = request.getParameter("listaproduto");
             fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", produto).getResultList();
         }
-        
+
         tx.commit();
 
-        
+
         //
         // Imprime o resultado da pesquisa
         //
-        
+
         try {
             out.println("<html>");
             out.println("<head>");
@@ -187,9 +209,8 @@ public class ServletFornecimento extends HttpServlet {
 
         boolean persist = false;
 
-        EntityManagerFactory emf = HibernateUtil.getEntityManagerFactory();
         EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
-        //EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager(); //Criando um Entity Manager
+
         EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
         tx.begin(); //Iniciando a transação
         Fornecedor forn = new Fornecedor();

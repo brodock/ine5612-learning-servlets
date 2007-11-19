@@ -1,3 +1,8 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package ine5612.persistence;
 
 import java.io.Serializable;
@@ -5,19 +10,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * Entidade Fornecedor
- * @author Gabriel, Ramon
+ *
+ * @author brodock
  */
 @Entity
 @Table(name = "Fornecedor")
-@NamedQueries(value = {@NamedQuery(name = "Fornecedor.findByIdFornecedor", query = "SELECT f FROM Fornecedor f WHERE f.idFornecedor = :idFornecedor"), @NamedQuery(name = "Fornecedor.findByNomeFantasia", query = "SELECT f FROM Fornecedor f WHERE f.nomeFantasia = :nomeFantasia"), @NamedQuery(name = "Fornecedor.findByEndereco", query = "SELECT f FROM Fornecedor f WHERE f.endereco = :endereco"), @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade"), @NamedQuery(name = "Fornecedor.findByEstado", query = "SELECT f FROM Fornecedor f WHERE f.estado = :estado"), @NamedQuery(name = "Fornecedor.findByPais", query = "SELECT f FROM Fornecedor f WHERE f.pais = :pais"), @NamedQuery(name = "Fornecedor.findByTelefone", query = "SELECT f FROM Fornecedor f WHERE f.telefone = :telefone"), @NamedQuery(name = "Fornecedor.findByEmail", query = "SELECT f FROM Fornecedor f WHERE f.email = :email"), @NamedQuery(name = "Fornecedor.findByContato", query = "SELECT f FROM Fornecedor f WHERE f.contato = :contato")})
+@NamedQueries({@NamedQuery(name = "Fornecedor.findByIdFornecedor", query = "SELECT f FROM Fornecedor f WHERE f.idFornecedor = :idFornecedor"), @NamedQuery(name = "Fornecedor.findByNomeFantasia", query = "SELECT f FROM Fornecedor f WHERE f.nomeFantasia = :nomeFantasia"), @NamedQuery(name = "Fornecedor.findByEndereco", query = "SELECT f FROM Fornecedor f WHERE f.endereco = :endereco"), @NamedQuery(name = "Fornecedor.findByCidade", query = "SELECT f FROM Fornecedor f WHERE f.cidade = :cidade"), @NamedQuery(name = "Fornecedor.findByEstado", query = "SELECT f FROM Fornecedor f WHERE f.estado = :estado"), @NamedQuery(name = "Fornecedor.findByPais", query = "SELECT f FROM Fornecedor f WHERE f.pais = :pais"), @NamedQuery(name = "Fornecedor.findByTelefone", query = "SELECT f FROM Fornecedor f WHERE f.telefone = :telefone"), @NamedQuery(name = "Fornecedor.findByEmail", query = "SELECT f FROM Fornecedor f WHERE f.email = :email"), @NamedQuery(name = "Fornecedor.findByContato", query = "SELECT f FROM Fornecedor f WHERE f.contato = :contato")})
 public class Fornecedor implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "idFornecedor", nullable = false)
@@ -38,6 +45,9 @@ public class Fornecedor implements Serializable {
     private String email;
     @Column(name = "contato")
     private String contato;
+    @JoinColumn(name = "idProduto", referencedColumnName = "idProduto")
+    @ManyToOne
+    private Produto idProduto;
 
     public Fornecedor() {
     }
@@ -127,6 +137,14 @@ public class Fornecedor implements Serializable {
         this.contato = contato;
     }
 
+    public Produto getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Produto idProduto) {
+        this.idProduto = idProduto;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -151,4 +169,5 @@ public class Fornecedor implements Serializable {
     public String toString() {
         return "ine5612.persistence.Fornecedor[idFornecedor=" + idFornecedor + "]";
     }
+
 }
