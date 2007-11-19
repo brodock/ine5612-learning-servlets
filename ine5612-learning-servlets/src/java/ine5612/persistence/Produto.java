@@ -1,8 +1,4 @@
 /*
- * Produto.java
- * 
- * Created on 15/10/2007, 20:10:58
- * 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -11,14 +7,15 @@ package ine5612.persistence;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,22 +26,29 @@ import javax.persistence.Table;
 @Table(name = "Produto")
 @NamedQueries({@NamedQuery(name = "Produto.findByIdProduto", query = "SELECT p FROM Produto p WHERE p.idProduto = :idProduto"), @NamedQuery(name = "Produto.findByNome", query = "SELECT p FROM Produto p WHERE p.nome = :nome"), @NamedQuery(name = "Produto.findByPreco", query = "SELECT p FROM Produto p WHERE p.preco = :preco")})
 public class Produto implements Serializable {
-    @Id @GeneratedValue
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue
     @Column(name = "idProduto", nullable = false)
     private Integer idProduto;
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
-    @Column(name = "preco")
+    @Column(name = "preco", nullable = false)
     private BigDecimal preco;
-    @JoinColumn(name = "idFornecedor", referencedColumnName = "idFornecedor")
-    @ManyToOne
-    private Fornecedor idFornecedor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduto")
+    private Collection<Fornecedor> fornecedorCollection;
 
     public Produto() {
     }
 
     public Produto(Integer idProduto) {
         this.idProduto = idProduto;
+    }
+
+    public Produto(Integer idProduto, String nome, BigDecimal preco) {
+        this.idProduto = idProduto;
+        this.nome = nome;
+        this.preco = preco;
     }
 
     public Integer getIdProduto() {
@@ -71,12 +75,12 @@ public class Produto implements Serializable {
         this.preco = preco;
     }
 
-    public Fornecedor getIdFornecedor() {
-        return idFornecedor;
+    public Collection<Fornecedor> getFornecedorCollection() {
+        return fornecedorCollection;
     }
 
-    public void setIdFornecedor(Fornecedor idFornecedor) {
-        this.idFornecedor = idFornecedor;
+    public void setFornecedorCollection(Collection<Fornecedor> fornecedorCollection) {
+        this.fornecedorCollection = fornecedorCollection;
     }
 
     @Override
@@ -101,7 +105,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(idProduto);
+        return "ine5612.persistence.Produto[idProduto=" + idProduto + "]";
     }
 
 }

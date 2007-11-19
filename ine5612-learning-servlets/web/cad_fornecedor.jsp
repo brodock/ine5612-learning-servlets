@@ -5,6 +5,9 @@ Author     : Gabriel, Ramon
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="ine5612.servlets.ServletProduto" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="ine5612.persistence.Produto" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -22,8 +25,11 @@ Author     : Gabriel, Ramon
             <% } %>
             <label name="Nome Fantasia da Empresa"><br/>Nome Fantasia: <input type="text" name="nome" value="<%=request.getAttribute("nome") == null?"":request.getAttribute("nome") %>"  /></label><br/>Produto:
             <select id="fornece" name="fornece">
-                <% for(ine5612.persistence.ProdutoEnum t: ine5612.persistence.ProdutoEnum.values()) { %>
-                <label name="Produto Fornecido"><option <%=request.getAttribute("produto") == t.getNome()?"selected":"" %>><%=t.getNome() %></option></label>
+                <% 
+                ArrayList<Produto> produtos = (ArrayList<Produto>)request.getAttribute("produtos");
+                
+                for(Produto p: produtos) { %>
+                <label name="Produto Fornecido"><option <%=request.getAttribute("produto") == p.getNome()?"selected":"" %>><%=p.getNome() %></option></label>
                 <% }; %>
             </select>
             <label name="CNPJ da Empresa"><br/>CNPJ: <input type="text" name="cnpj" value="<%=request.getAttribute("cnpj") == null?"":request.getAttribute("cnpj") %>"  /></label>

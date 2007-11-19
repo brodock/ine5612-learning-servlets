@@ -4,9 +4,17 @@
         <servlet-name>ServletFornecimento</servlet-name>
         <servlet-class>ine5612.servlets.ServletFornecimento</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletProduto</servlet-name>
+        <servlet-class>ine5612.servlets.ServletProduto</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletFornecimento</servlet-name>
         <url-pattern>/ServletFornecimento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletProduto</servlet-name>
+        <url-pattern>/ServletProduto</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
