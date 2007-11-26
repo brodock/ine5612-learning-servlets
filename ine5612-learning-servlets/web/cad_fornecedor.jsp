@@ -26,11 +26,12 @@ Author     : Gabriel, Ramon
             <label name="Nome Fantasia da Empresa"><br/>Nome Fantasia: <input type="text" name="nome" value="<%=request.getAttribute("nome") == null?"":request.getAttribute("nome") %>"  /></label><br/>Produto:
             <select id="fornece" name="fornece">
                 <% 
+                if (false == true) { // POG Temporário
                 ArrayList<Produto> produtos = (ArrayList<Produto>)request.getAttribute("produtos");
                 
                 for(Produto p: produtos) { %>
                 <label name="Produto Fornecido"><option <%=request.getAttribute("produto") == p.getNome()?"selected":"" %>><%=p.getNome() %></option></label>
-                <% }; %>
+                <% } } %>
             </select>
             <label name="CNPJ da Empresa"><br/>CNPJ: <input type="text" name="cnpj" value="<%=request.getAttribute("cnpj") == null?"":request.getAttribute("cnpj") %>"  /></label>
             <label name="Cidade da Matriz"><br/>Cidade: <input type="text" name="cidade" value="<%=request.getAttribute("cidade") == null?"":request.getAttribute("cidade") %>"  /></label>
