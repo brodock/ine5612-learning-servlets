@@ -82,8 +82,5 @@ public class ServletProduto extends HttpServlet {
         return "Short description";
     }
 
-    public List<Produto> getProducts() {
-        return this.produtos;
-    }
     // </editor-fold>
 }

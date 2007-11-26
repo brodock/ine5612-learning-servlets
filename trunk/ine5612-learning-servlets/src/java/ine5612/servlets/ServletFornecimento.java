@@ -6,6 +6,7 @@ import ine5612.utils.HibernateUtil;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -33,7 +34,7 @@ public class ServletFornecimento extends HttpServlet {
 
         ArrayList<Produto> prods = null;
         // Carregar a lista de produtos disponível no banco
-        prods = (ArrayList<Produto>) em.createNativeQuery("SELECT p FROM Produto p").getResultList();
+        prods = (ArrayList<Produto>) em.createNativeQuery("SELECT * FROM Produto p").getResultList();
 
         tx.commit();
 
@@ -75,7 +76,7 @@ public class ServletFornecimento extends HttpServlet {
      * @throws java.io.IOException
      */
 
-        @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -165,7 +166,7 @@ public class ServletFornecimento extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-      
+
         EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
         tx.begin(); //Iniciando a transação
 
@@ -251,6 +252,10 @@ public class ServletFornecimento extends HttpServlet {
         } finally {
             out.close();
         }
+    }
+
+    public List<Produto> getProducts() {
+        return this.produtos;
     }
     // </editor-fold>
 }
