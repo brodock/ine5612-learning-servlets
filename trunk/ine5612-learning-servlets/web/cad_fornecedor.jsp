@@ -32,14 +32,14 @@ Author     : Gabriel, Ramon
                 <option value="<%=p.getIdProduto() %>"<%=request.getAttribute("produto") == p.getNome()?"selected=\"selected\"":"" %>><%=p.getNome() %></option>
                 <% } %>
             </select>
-            <label title="CNPJ da Empresa"><br/>CNPJ: <input type="text" name="cnpj" value="<%=request.getAttribute("cnpj") == null?"":request.getAttribute("cnpj") %>"  /></label>
+
             <label title="Cidade da Matriz"><br/>Cidade: <input type="text" name="cidade" value="<%=request.getAttribute("cidade") == null?"":request.getAttribute("cidade") %>"  /></label>
             <label title="Estado da Matriz"><br/>Estado: <input type="text" name="estado" value="<%=request.getAttribute("estado") == null?"":request.getAttribute("estado") %>"  /></label>
             <label title="Pais da Matriz"><br/>Pais: <input type="text" name="pais" value="<%=request.getAttribute("pais") == null?"":request.getAttribute("pais") %>"  /></label>
             <label title="Endereço"><br/>Endereço: <input type="text" name="endereco" value="<%=request.getAttribute("endereco") == null?"":request.getAttribute("endereco") %>"  /></label>
             <label title="Telefone para contato"><br/>Telefone: <input type="text" name="telefone" value="<%=request.getAttribute("telefone") == null?"":request.getAttribute("telefone") %>"  /></label>
             <label title="e-mail para contato"><br/>E-mail: <input type="text" name="email" value="<%=request.getAttribute("email") == null?"":request.getAttribute("email") %>"  /></label>
-            <label title="Pessoa a contatar"><br/>Contatos: <input type="text" name="contatos" value="<%=request.getAttribute("contatos") == null?"":request.getAttribute("contatos") %>"  /></label>
+            <label title="Pessoa a contatar"><br/>Contato: <input type="text" name="contato" value="<%=request.getAttribute("contato") == null?"":request.getAttribute("contato") %>"  /></label>
             <label title="enviar formulário"><br/><input type="submit" id ="salvar" value="Salvar" name="salvar" /></label>
                 <input type="hidden" name="action" value="save" />
             </form>
