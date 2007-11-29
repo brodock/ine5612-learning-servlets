@@ -79,11 +79,11 @@ public class ServletFornecimento extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        
+
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         String action = request.getParameter("action");
 
         if (action != null) {
@@ -94,12 +94,15 @@ public class ServletFornecimento extends HttpServlet {
             } else if (action.equals("search")) {
                 request.setAttribute("produtos", this.produtos);
                 this.dispatch(request, response, "/busca_fornecedor.jsp");
+            } else if (action.equals("edit")) {
+                request.setAttribute("produtos", this.produtos);
+                this.edit(request, response);
             } else {
-                //Se a action não for encontrada - não fazer nada!                
+            //Se a action não for encontrada - não fazer nada!                
             }
         }
-        
-                
+
+
         try {
         /* TODO output your page here
         out.println("<html>");
@@ -172,7 +175,7 @@ public class ServletFornecimento extends HttpServlet {
         sb.append("<ul>\n");
         for (Fornecedor f : fornecedores) {
             sb.append("<li>");
-            sb.append(f.getNomeFantasia());
+            sb.append("<a href=\"ServletFornecimento?action=edit&id=" + f.getIdFornecedor() + "\">" + f.getNomeFantasia() + "</a>");
             sb.append("</li>\n");
         }
         sb.append("</ul>\n");
@@ -195,10 +198,11 @@ public class ServletFornecimento extends HttpServlet {
         String tipo = request.getParameter("param_busca");
 
         if (tipo.equals("nome")) {
-            if (texto.isEmpty())
+            if (texto.isEmpty()) {
                 fornecedores = (ArrayList<Fornecedor>) em.createNativeQuery("SELECT * FROM Fornecedor WHERE true", Fornecedor.class).getResultList();
-            else
+            } else {
                 fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", texto).getResultList();
+            }
         } else if (tipo.equals("produto")) {
             Integer prod = Integer.parseInt(request.getParameter("listaproduto"));
             Produto produto = (Produto) em.createNamedQuery("Produto.findByIdProduto").setParameter("idProduto", prod).getSingleResult();
@@ -248,11 +252,11 @@ public class ServletFornecimento extends HttpServlet {
         String email = request.getParameter("email");
         String telefone = request.getParameter("telefone");
         String contato = request.getParameter("contato");
-        
+
         // Recupera o Produto
         Query q_produto = em.createNamedQuery("Produto.findByIdProduto");
         q_produto.setParameter("idProduto", Integer.parseInt(request.getParameter("produto")));
-        Produto produto = (Produto)q_produto.getSingleResult();
+        Produto produto = (Produto) q_produto.getSingleResult();
 
         forn.setNomeFantasia(nomeFantasia);
         forn.setEndereco(endereco);
@@ -290,6 +294,44 @@ public class ServletFornecimento extends HttpServlet {
     protected void dispatch(HttpServletRequest request, HttpServletResponse response, String page) throws javax.servlet.ServletException, java.io.IOException {
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Id do fornecedor a ser editado
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
+        tx.begin(); //Iniciando a transação
+
+
+        Fornecedor forn = null;
+        // Carregar o fornecedor
+        forn = (Fornecedor) em.createNativeQuery("SELECT * FROM Fornecedor p WHERE idFornecedor="+id, Fornecedor.class).getSingleResult();
+
+        tx.commit();
+
+        // Recupera os valores do banco
+        String nomeFantasia = forn.getNomeFantasia();
+        String endereco = forn.getEndereco();
+        String cidade = forn.getCidade();
+        String estado = forn.getEstado();
+        String pais = forn.getPais();
+        String email = forn.getEmail();
+        String telefone = forn.getTelefone();
+        String contato = forn.getContato();
+        
+        // Repassa pro Servlet (para ser transmitido pro JSP)
+        request.setAttribute("nome", nomeFantasia);
+        request.setAttribute("endereco", endereco);
+        request.setAttribute("cidade", cidade);
+        request.setAttribute("estado", estado);
+        request.setAttribute("pais", pais);
+        request.setAttribute("email", email);
+        request.setAttribute("telefone", telefone);
+        request.setAttribute("contato", contato);
+
+        this.dispatch(request, response, "/cad_fornecedor.jsp");
     }
     // </editor-fold>
 }
