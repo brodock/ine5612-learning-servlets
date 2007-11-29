@@ -38,6 +38,7 @@ public class ServletFornecimento extends HttpServlet {
 
         tx.commit();
 
+        
         this.produtos = prods;
 
 
@@ -53,20 +54,7 @@ public class ServletFornecimento extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
-        /* TODO output your page here
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Servlet cad_fornecedor</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
-        out.println("</body>");
-        out.println("</html>");
-         */
-        } finally {
-            out.close();
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -103,20 +91,6 @@ public class ServletFornecimento extends HttpServlet {
         }
 
 
-        try {
-        /* TODO output your page here
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Servlet cad_fornecedor</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Servlet cad_fornecedor at " + request.getContextPath () + "</h1>");
-        out.println("</body>");
-        out.println("</html>");
-         */
-        } finally {
-            out.close();
-        }
     }
 
     @Override
@@ -161,7 +135,7 @@ public class ServletFornecimento extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet de manipulação de fornecedores";
     }
 
     /**
@@ -183,7 +157,7 @@ public class ServletFornecimento extends HttpServlet {
         return sb.toString();
     }
 
-    @SuppressWarnings(value = "unchecked")
+    
     private void searchFornecedor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
@@ -235,13 +209,20 @@ public class ServletFornecimento extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        boolean persist = false;
-
-        EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
 
         EntityTransaction tx = em.getTransaction(); //Recuperando uma transação
         tx.begin(); //Iniciando a transação
-        Fornecedor forn = new Fornecedor();
+
+        
+        String id_fornecedor = request.getParameter("id");
+        Fornecedor forn = null;
+        
+        if (id_fornecedor != null && !id_fornecedor.isEmpty()) {
+            Query q_fornecedor = em.createNamedQuery("Fornecedor.findByIdFornecedor").setParameter("idFornecedor", Integer.parseInt(id_fornecedor));
+            forn = (Fornecedor) q_fornecedor.getSingleResult();
+        } else {
+            forn = new Fornecedor();
+        }
 
 
         String nomeFantasia = request.getParameter("nome");
@@ -252,6 +233,7 @@ public class ServletFornecimento extends HttpServlet {
         String email = request.getParameter("email");
         String telefone = request.getParameter("telefone");
         String contato = request.getParameter("contato");
+
 
         // Recupera o Produto
         Query q_produto = em.createNamedQuery("Produto.findByIdProduto");
@@ -270,8 +252,6 @@ public class ServletFornecimento extends HttpServlet {
 
         em.persist(forn);
         tx.commit();
-
-        em.close();
 
         try {
             out.println("<html>");
