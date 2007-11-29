@@ -18,7 +18,7 @@ Author     : brodock
         <h1>Controle de Fornecedores</h1>
         <ul>
             <li><a href="ServletFornecimento?action=new">Cadastrar</a></li>
-            <li><a href="busca_fornecedor.jsp">Buscar</a></li>
+            <li><a href="ServletFornecimento?action=search">Buscar</a></li>
         </ul>
         </div>
     </body>

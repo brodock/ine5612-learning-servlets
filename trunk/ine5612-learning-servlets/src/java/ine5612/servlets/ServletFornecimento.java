@@ -79,10 +79,12 @@ public class ServletFornecimento extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-                String action = request.getParameter("action");
+        String action = request.getParameter("action");
 
         if (action != null) {
             if (action.equals("new")) {
@@ -90,11 +92,14 @@ public class ServletFornecimento extends HttpServlet {
                 request.setAttribute("produtos", this.produtos);
                 this.dispatch(request, response, "/cad_fornecedor.jsp");
             } else if (action.equals("search")) {
+                request.setAttribute("produtos", this.produtos);
                 this.dispatch(request, response, "/busca_fornecedor.jsp");
             } else {
                 //Se a action não for encontrada - não fazer nada!                
             }
         }
+        
+                
         try {
         /* TODO output your page here
         out.println("<html>");
@@ -190,10 +195,14 @@ public class ServletFornecimento extends HttpServlet {
         String tipo = request.getParameter("param_busca");
 
         if (tipo.equals("nome")) {
-            fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", texto).getResultList();
+            if (texto.isEmpty())
+                fornecedores = (ArrayList<Fornecedor>) em.createNativeQuery("SELECT * FROM Fornecedor WHERE true", Fornecedor.class).getResultList();
+            else
+                fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", texto).getResultList();
         } else if (tipo.equals("produto")) {
-            String produto = request.getParameter("listaproduto");
-            fornecedores = (ArrayList<Fornecedor>) em.createNamedQuery("Fornecedor.findByNomeFantasia").setParameter("nomeFantasia", produto).getResultList();
+            Integer prod = Integer.parseInt(request.getParameter("listaproduto"));
+            Produto produto = (Produto) em.createNamedQuery("Produto.findByIdProduto").setParameter("idProduto", prod).getSingleResult();
+            fornecedores = new ArrayList<Fornecedor>(produto.getFornecedorCollection());
         }
 
         tx.commit();
