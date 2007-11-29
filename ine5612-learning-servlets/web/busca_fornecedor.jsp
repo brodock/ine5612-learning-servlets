@@ -5,6 +5,8 @@ Author     : Gabriel, Ramon
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="ine5612.persistence.Produto" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -18,9 +20,13 @@ Author     : Gabriel, Ramon
             
             <input type="radio" name="param_busca" value="nome" checked="checked" />Nome 
             <input type="radio" name="param_busca" value="produto" /> Produto: <select name="listaproduto">
-                <% for(ine5612.persistence.ProdutoEnum t: ine5612.persistence.ProdutoEnum.values()) { %>
-                <option><%=t.getNome() %></option>
-                <% }; %>
+                <% 
+                ArrayList<Produto> produtos = (ArrayList<Produto>)request.getAttribute("produtos");
+
+
+                for(Produto p: produtos) { %>
+                <option value="<%=p.getIdProduto() %>"<%=request.getAttribute("produto") == p.getNome()?"selected=\"selected\"":"" %>><%=p.getNome() %></option>
+                <% } %>
             </select>
             
             <br/><input type="text" name="texto" value="" />
