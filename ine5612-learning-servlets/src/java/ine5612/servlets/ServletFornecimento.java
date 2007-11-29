@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -20,7 +21,6 @@ import javax.servlet.http.*;
 public class ServletFornecimento extends HttpServlet {
 
     private ArrayList<Produto> produtos;
-    
     // Caralhada de coisas pro Hibernate Funcionar
     private EntityManagerFactory emf = HibernateUtil.getEntityManagerFactory(); // Factory
     private EntityManager em = emf.createEntityManager(); //Criando um Entity Manager
@@ -34,11 +34,13 @@ public class ServletFornecimento extends HttpServlet {
 
         ArrayList<Produto> prods = null;
         // Carregar a lista de produtos disponível no banco
-        prods = (ArrayList<Produto>) em.createNativeQuery("SELECT * FROM Produto p").getResultList();
+        prods = (ArrayList<Produto>) em.createNativeQuery("SELECT * FROM Produto p WHERE true", Produto.class).getResultList();
 
         tx.commit();
 
         this.produtos = prods;
+
+
     }
 
     /**
@@ -75,11 +77,24 @@ public class ServletFornecimento extends HttpServlet {
      * @throws javax.servlet.ServletException
      * @throws java.io.IOException
      */
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+                String action = request.getParameter("action");
+
+        if (action != null) {
+            if (action.equals("new")) {
+
+                request.setAttribute("produtos", this.produtos);
+                this.dispatch(request, response, "/cad_fornecedor.jsp");
+            } else if (action.equals("search")) {
+                this.dispatch(request, response, "/busca_fornecedor.jsp");
+            } else {
+                //Se a action não for encontrada - não fazer nada!                
+            }
+        }
         try {
         /* TODO output your page here
         out.println("<html>");
@@ -132,7 +147,6 @@ public class ServletFornecimento extends HttpServlet {
         }
     }
 
-    
     /**
      * Returns a short description of the servlet.
      * @return
@@ -225,6 +239,11 @@ public class ServletFornecimento extends HttpServlet {
         String email = request.getParameter("email");
         String telefone = request.getParameter("telefone");
         String contato = request.getParameter("contato");
+        
+        // Recupera o Produto
+        Query q_produto = em.createNamedQuery("Produto.findByIdProduto");
+        q_produto.setParameter("idProduto", Integer.parseInt(request.getParameter("produto")));
+        Produto produto = (Produto)q_produto.getSingleResult();
 
         forn.setNomeFantasia(nomeFantasia);
         forn.setEndereco(endereco);
@@ -234,6 +253,7 @@ public class ServletFornecimento extends HttpServlet {
         forn.setEmail(email);
         forn.setTelefone(telefone);
         forn.setContato(contato);
+        forn.setIdProduto(produto);
 
         em.persist(forn);
         tx.commit();
@@ -256,6 +276,11 @@ public class ServletFornecimento extends HttpServlet {
 
     public List<Produto> getProducts() {
         return this.produtos;
+    }
+
+    protected void dispatch(HttpServletRequest request, HttpServletResponse response, String page) throws javax.servlet.ServletException, java.io.IOException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+        dispatcher.forward(request, response);
     }
     // </editor-fold>
 }
